@@ -1,9 +1,10 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 
 function App() {
   return (
     <div>
-      <h1>From App</h1>
+      <Button>This is a button</Button>
     </div>
   );
 }
