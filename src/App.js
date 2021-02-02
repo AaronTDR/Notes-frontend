@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Notes from "./components/Notes";
 
 function App() {
   return (
     <div>
-      <Button>This is a button</Button>
+      <Notes />
     </div>
   );
 }
