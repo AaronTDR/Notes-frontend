@@ -1,9 +1,13 @@
 import React from "react";
+import { Typography } from "@material-ui/core";
+//import FloatBar from "./FloatBar";
 
 const Notes = () => {
   return (
     <div>
-      <h1>From Notes </h1>
+      <Typography variant="h3" color="secondary">
+        From Notes
+      </Typography>
     </div>
   );
 };

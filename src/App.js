@@ -2,11 +2,7 @@ import React from "react";
 import Notes from "./components/Notes";
 
 function App() {
-  return (
-    <div>
-      <Notes />
-    </div>
-  );
+  return <Notes />;
 }
 
 export default App;
