@@ -1,12 +1,12 @@
 import React from "react";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./themeConfig";
-import Notes from "./components/Notes";
+import ResponsiveDrawer from "./components/ResponsiveDrawer";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Notes />
+      <ResponsiveDrawer />
     </ThemeProvider>
   );
 }
