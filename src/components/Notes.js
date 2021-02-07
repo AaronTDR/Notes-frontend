@@ -1,15 +1,30 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
-//import FloatBar from "./FloatBar";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import OutlinedCard from "./OutlinedCard";
+//import Paper from "@material-ui/core/Paper";
 
-const Notes = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  card: {
+    minWidth: 300,
+  },
+}));
+
+export default function Notes() {
+  const classes = useStyles();
+
   return (
-    <div>
-      <Typography variant="h3" color="secondary">
-        From Notes
-      </Typography>
-    </div>
+    <Grid container className={classes.root}>
+      <Grid container justify="center" spacing={2}>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((value) => (
+          <Grid key={value} item xs={12} sm={6} md={3} className={classes.card}>
+            <OutlinedCard />
+          </Grid>
+        ))}
+      </Grid>
+    </Grid>
   );
-};
-
-export default Notes;
+}
