@@ -15,7 +15,7 @@ function App() {
       axiosCustomer
         .get("/notes")
         .then((res) => {
-          console.log(res);
+          saveNotes(res.data);
         })
         .catch((error) => console.log(error));
     };
