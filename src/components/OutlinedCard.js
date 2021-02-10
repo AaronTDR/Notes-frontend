@@ -42,7 +42,7 @@ export default function OutlinedCard() {
             variant="h5"
             component="h2"
           >
-            Gym mañana tempranoGym
+            sjdnfdposmfsf
           </Typography>
           <Typography
             color="textSecondary"
@@ -50,13 +50,7 @@ export default function OutlinedCard() {
             variant="body1"
             component="p"
           >
-            Gym mañana tempranoGym mañana tempranoGym mañana tempranoGym mañana
-            jndflkjnl nsf kdsf lknf kndsfl knowe ndsfGym mañana tempranoGym
-            mañana tempranoGym mañana tempranoGym mañana jndflkjnl nsf kdsf lknf
-            kndsfl knowe ndsfGym mañana tempranoGym mañana tempranoGym mañana
-            tempranoGym mañana jndflkjnl nsf kdsf lknf kndsfl knowe ndsfGym
-            mañana tempranoGym mañana tempranoGym mañana tempranoGym mañana
-            jndflkjnl nsf kdsf lknf kndsfl knowe ndsf
+            djshnfonofinonaedfaslnkdñanjsoidnkasdimnasokdmubewojrncwhreovnorcvw
           </Typography>
         </CardContent>
         <CardContent>
