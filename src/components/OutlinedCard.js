@@ -13,8 +13,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles({
   cardContent: {
     height: 200,
-    width: 300,
-    overFlow: "hidden",
+    width: "100%",
+    overflow: "hidden",
   },
   title: {
     fontSize: 20,
@@ -51,6 +51,11 @@ export default function OutlinedCard() {
             component="p"
           >
             Gym mañana tempranoGym mañana tempranoGym mañana tempranoGym mañana
+            jndflkjnl nsf kdsf lknf kndsfl knowe ndsfGym mañana tempranoGym
+            mañana tempranoGym mañana tempranoGym mañana jndflkjnl nsf kdsf lknf
+            kndsfl knowe ndsfGym mañana tempranoGym mañana tempranoGym mañana
+            tempranoGym mañana jndflkjnl nsf kdsf lknf kndsfl knowe ndsfGym
+            mañana tempranoGym mañana tempranoGym mañana tempranoGym mañana
             jndflkjnl nsf kdsf lknf kndsfl knowe ndsf
           </Typography>
         </CardContent>

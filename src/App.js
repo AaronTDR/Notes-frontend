@@ -30,7 +30,7 @@ function App() {
           path="/"
           component={() => (
             <ThemeProvider theme={theme}>
-              <ResponsiveDrawer />
+              <ResponsiveDrawer notes={notes} />
             </ThemeProvider>
           )}
         />

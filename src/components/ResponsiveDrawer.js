@@ -147,7 +147,7 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
-        <Notes />
+        <Notes notes={props.notes} />
       </main>
     </div>
   );
