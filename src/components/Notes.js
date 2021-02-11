@@ -50,7 +50,7 @@ export default function Notes(props) {
             md={3}
             className={classes.card}
           >
-            <Card variant="outlined">
+            <Card variant="outlined"> 
               <CardActionArea>
                 <CardContent className={classes.cardContent}>
                   <Typography

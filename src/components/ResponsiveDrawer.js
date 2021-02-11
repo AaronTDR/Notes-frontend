@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -6,12 +7,13 @@ import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import NotesIcon from '@material-ui/icons/Notes';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import MailIcon from "@material-ui/icons/Mail";
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import InfoIcon from '@material-ui/icons/Info';
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -68,21 +70,35 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Home", "New Note", "About", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        {["All notes", "New note", "About"].map((text, index) => {
+          
+          let page=["/", "new", "about"];
+          let icon;
+          if (text === "All notes"){
+		        icon = <NotesIcon />
+		      } else if (text === "New note"){
+		        icon = <NoteAddIcon />
+		      } else if (text === "About"){
+		        icon = <InfoIcon />
+		      }
+        
+          return (
+            <ListItem button key={text} component={Link} to={page[index]}>
+              <ListItemIcon>
+		            {icon}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          )
+        })}
+
       </List>
       <Divider />
       <List>
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {index % 2 === 0 ? <NotesIcon /> : <NoteAddIcon />}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
