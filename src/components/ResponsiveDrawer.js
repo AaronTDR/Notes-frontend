@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
@@ -7,18 +8,17 @@ import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import NotesIcon from '@material-ui/icons/Notes';
+import NotesIcon from "@material-ui/icons/Notes";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import InfoIcon from '@material-ui/icons/Info';
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import InfoIcon from "@material-ui/icons/Info";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Notes from "./Notes";
 
 const drawerWidth = 240;
 
@@ -70,28 +70,23 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["All notes", "New note", "About"].map((text, index) => {
-          
-          let page=["/", "new", "about"];
-          let icon;
-          if (text === "All notes"){
-		        icon = <NotesIcon />
-		      } else if (text === "New note"){
-		        icon = <NoteAddIcon />
-		      } else if (text === "About"){
-		        icon = <InfoIcon />
-		      }
-        
+        {[
+          { text: "All notes", page: "/", icon: <NotesIcon /> },
+          { text: "New note", page: "/new", icon: <NoteAddIcon /> },
+          { text: "About", page: "/about", icon: <InfoIcon /> },
+        ].map((routeInfo) => {
           return (
-            <ListItem button key={text} component={Link} to={page[index]}>
-              <ListItemIcon>
-		            {icon}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem
+              button
+              key={routeInfo.text}
+              component={Link}
+              to={routeInfo.page}
+            >
+              <ListItemIcon>{routeInfo.icon}</ListItemIcon>
+              <ListItemText primary={routeInfo.text} />
             </ListItem>
-          )
+          );
         })}
-
       </List>
       <Divider />
       <List>
@@ -163,7 +158,7 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
-        <Notes notes={props.notes} />
+        {props.componentToRender}
       </main>
     </div>
   );

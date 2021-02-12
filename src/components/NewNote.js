@@ -1,9 +1,9 @@
 import React from "react";
 
-const NewNote = () => {
+const NewNote = (props) => {
   return (
     <div>
-      <h1>From New Note</h1>
+      <h1>ESTAMOS EN NEW NOTE</h1>
     </div>
   );
 };
