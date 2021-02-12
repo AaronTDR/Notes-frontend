@@ -6,6 +6,7 @@ import ResponsiveDrawer from "./components/ResponsiveDrawer";
 import NewNote from "./components/NewNote";
 import Note from "./components/Note";
 import Notes from "./components/Notes";
+import About from "./components/About";
 
 function App() {
   return (
@@ -27,6 +28,12 @@ function App() {
           />
 
           <Route exact path="/note/:id" component={Note} />
+
+          <Route
+            exact
+            path="/about"
+            component={() => <ResponsiveDrawer componentToRender={<About />} />}
+          />
         </Switch>
       </Router>
     </ThemeProvider>
