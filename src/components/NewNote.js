@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import Typography from "@material-ui/core/Typography";
+import axiosCustomer from "../config/axios";
 
 const useStyles = makeStyles(() => ({
   InputTitle: {
@@ -14,6 +14,28 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NewNote = (props) => {
+  const [note, saveNote] = useState({
+    title: "",
+    note: "",
+    date: "",
+  });
+  // read the form data
+  const updateStatus = (e) => {
+    saveNote({
+      ...note,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // send a request to the API
+  const createNewNote = (e) => {
+    e.preventDefault();
+
+    axiosCustomer.post("/notes", note).then((res) => {
+      props.history.push("/");
+    });
+  };
+
   const classes = useStyles();
   return (
     <Fragment>
@@ -26,7 +48,7 @@ const NewNote = (props) => {
       >
         Add a new note
       </Typography>
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete="off" onSubmit={createNewNote}>
         <Grid container justify="center" spacing={4}>
           <Grid item xs={12} sm={7} md={7} className={classes.InputTitle}>
             <TextField
@@ -34,7 +56,9 @@ const NewNote = (props) => {
               label="Title"
               variant="outlined"
               type="string"
+              name="title"
               fullWidth="true"
+              onChange={updateStatus}
             />
           </Grid>
 
@@ -46,8 +70,10 @@ const NewNote = (props) => {
               rows={8}
               variant="outlined"
               type="string"
+              name="note"
               rowsMax="15"
               fullWidth="true"
+              onChange={updateStatus}
             />
           </Grid>
 
@@ -56,11 +82,13 @@ const NewNote = (props) => {
               id="datetime-local"
               label="Next appointment"
               type="datetime-local"
+              name="date"
               defaultValue="2021-02-13T10:30"
               InputLabelProps={{
                 shrink: true,
               }}
               fullWidth="true"
+              onChange={updateStatus}
             />
           </Grid>
           <Grid item xs={12} sm={7} md={7}>
