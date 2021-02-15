@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-import axiosCustomer from "../config/axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -36,27 +34,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Notes() {
-  const [notes, saveNotes] = useState([]);
-
-  useEffect(() => {
-    const consultApi = () => {
-      axiosCustomer
-        .get("/notes")
-        .then((res) => {
-          saveNotes(res.data);
-        })
-        .catch((error) => console.log(error));
-    };
-    consultApi();
-  }, []);
-
+export default function Notes(props) {
   const classes = useStyles();
-  if (notes === 0) return null;
+
+  if (props.notes === 0) return null;
+
   return (
     <Grid container className={classes.root}>
       <Grid container justify="center" spacing={2}>
-        {notes.map((note) => (
+        {props.notes.map((note) => (
           <Grid
             key={note._id}
             item
