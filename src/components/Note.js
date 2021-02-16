@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
+import axiosCustomer from "../config/axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,6 +47,20 @@ const Note = (props) => {
   const {
     note: { title, note, date, _id },
   } = props;
+
+  // delete note
+  const deleteNote = (id) => {
+    axiosCustomer
+      .delete(`/notes/${id}`)
+      .then((res) => {
+        props.saveQuery(true);
+        props.history.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Grid container justify="center" spacing={1}>
       <Grid key={_id} item xs={12} sm={10} md={10}>
@@ -94,6 +109,7 @@ const Note = (props) => {
                   size="large"
                   fullWidth
                   className={classes.deleteBtn}
+                  onClick={() => deleteNote(_id)}
                 >
                   Delete &times;
                 </Button>
