@@ -1,11 +1,12 @@
 import React, { Fragment, useState } from "react";
+import { withRouter } from "react-router-dom";
+import axiosCustomer from "../config/axios";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import Typography from "@material-ui/core/Typography";
-import axiosCustomer from "../config/axios";
 
 const useStyles = makeStyles(() => ({
   InputTitle: {
@@ -31,7 +32,8 @@ const NewNote = (props) => {
   const createNewNote = (e) => {
     e.preventDefault();
 
-    axiosCustomer.post("/notes", note).then((res) => {
+    axiosCustomer.post("/notes", note).then(() => {
+      props.saveQuery(true);
       props.history.push("/");
     });
   };
@@ -109,4 +111,4 @@ const NewNote = (props) => {
   );
 };
 
-export default NewNote;
+export default withRouter(NewNote);

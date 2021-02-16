@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import axiosCustomer from "./config/axios";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./themeConfig";
 import ResponsiveDrawer from "./components/ResponsiveDrawer";
@@ -9,6 +10,25 @@ import Notes from "./components/Notes";
 import About from "./components/About";
 
 function App() {
+  const [notes, saveNotes] = useState([]);
+  const [query, saveQuery] = useState(true);
+
+  useEffect(() => {
+    if (query) {
+      const consultApi = () => {
+        axiosCustomer
+          .get("/notes")
+          .then((res) => {
+            saveNotes(res.data);
+            // disable query
+            saveQuery(false);
+          })
+          .catch((error) => console.log(error));
+      };
+      consultApi();
+    }
+  }, [query]);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -16,18 +36,33 @@ function App() {
           <Route
             exact
             path="/"
-            component={() => <ResponsiveDrawer componentToRender={<Notes />} />}
+            component={() => (
+              <ResponsiveDrawer componentToRender={<Notes notes={notes} />} />
+            )}
           />
 
           <Route
             exact
             path="/new"
             component={() => (
-              <ResponsiveDrawer componentToRender={<NewNote />} />
+              <ResponsiveDrawer
+                componentToRender={<NewNote saveQuery={saveQuery} />}
+              />
             )}
           />
 
-          <Route exact path="/note/:id" component={Note} />
+          <Route
+            exact
+            path="/note/:id"
+            render={(props) => {
+              const note = notes.filter(
+                (note) => note._id === props.match.params.id
+              );
+              return (
+                <ResponsiveDrawer componentToRender={<Note note={note[0]} />} />
+              );
+            }}
+          />
 
           <Route
             exact
