@@ -51,7 +51,18 @@ function App() {
             )}
           />
 
-          <Route exact path="/note/:id" component={Note} />
+          <Route
+            exact
+            path="/note/:id"
+            render={(props) => {
+              const note = notes.filter(
+                (note) => note._id === props.match.params.id
+              );
+              return (
+                <ResponsiveDrawer componentToRender={<Note note={note[0]} />} />
+              );
+            }}
+          />
 
           <Route
             exact
