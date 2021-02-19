@@ -62,7 +62,13 @@ const Note = (props) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your note has been deleted.", "success");
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your note has been deleted.",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
         //Removed from the DB
         axiosCustomer

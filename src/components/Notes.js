@@ -118,7 +118,8 @@ export default function Notes(props) {
                           title: "Deleted!",
                           text: "Your note has been deleted.",
                           icon: "success",
-                          showConfirmButton: true,
+                          showConfirmButton: false,
+                          timer: 1500,
                         });
 
                         //Removed from the DB
