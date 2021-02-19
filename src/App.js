@@ -37,7 +37,11 @@ function App() {
             exact
             path="/"
             component={() => (
-              <ResponsiveDrawer componentToRender={<Notes notes={notes} />} />
+              <ResponsiveDrawer
+                componentToRender={
+                  <Notes notes={notes} saveQuery={saveQuery} />
+                }
+              />
             )}
           />
 
