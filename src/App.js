@@ -37,7 +37,11 @@ function App() {
             exact
             path="/"
             component={() => (
-              <ResponsiveDrawer componentToRender={<Notes notes={notes} />} />
+              <ResponsiveDrawer
+                componentToRender={
+                  <Notes notes={notes} saveQuery={saveQuery} />
+                }
+              />
             )}
           />
 
@@ -59,7 +63,11 @@ function App() {
                 (note) => note._id === props.match.params.id
               );
               return (
-                <ResponsiveDrawer componentToRender={<Note note={note[0]} />} />
+                <ResponsiveDrawer
+                  componentToRender={
+                    <Note note={note[0]} saveQuery={saveQuery} />
+                  }
+                />
               );
             }}
           />

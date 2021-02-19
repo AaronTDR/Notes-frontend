@@ -10,6 +10,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import axiosCustomer from "../config/axios";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +100,40 @@ export default function Notes(props) {
                   <EditIcon fontSize="small" />
                 </IconButton>
 
-                <IconButton aria-label="delete">
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => {
+                    Swal.fire({
+                      title: "Are you sure?",
+                      text: "You won't be able to revert this!",
+                      icon: "warning",
+                      iconColor: "#3085d6",
+                      showCancelButton: true,
+                      confirmButtonColor: "#3085d6",
+                      cancelButtonColor: "#d33",
+                      confirmButtonText: "Yes, delete it!",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        Swal.fire({
+                          title: "Deleted!",
+                          text: "Your note has been deleted.",
+                          icon: "success",
+                          showConfirmButton: true,
+                        });
+
+                        //Removed from the DB
+                        axiosCustomer
+                          .delete(`/notes/${note._id}`)
+                          .then((res) => {
+                            props.saveQuery(true);
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                          });
+                      }
+                    });
+                  }}
+                >
                   <DeleteIcon fontSize="large" color="secondary" />
                 </IconButton>
               </CardActions>
