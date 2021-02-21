@@ -85,7 +85,7 @@ const NewNote = (props) => {
               label="Next appointment"
               type="datetime-local"
               name="date"
-              defaultValue="2021-02-13T10:30"
+              defaultValue="2021-02-20T10:30"
               InputLabelProps={{
                 shrink: true,
               }}

@@ -49,6 +49,20 @@ const Note = (props) => {
     note: { title, note, date, _id },
   } = props;
 
+  // edit notes
+  const editNote = (id) => {
+    //Edit from the DB
+    axiosCustomer
+      // AQUI HACER UN GET - LUEGO PUT
+      .put(`/notes/${id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   // delete note
   const deleteNote = (id) => {
     Swal.fire({
@@ -89,7 +103,11 @@ const Note = (props) => {
       <Grid key={_id} item xs={12} sm={10} md={10}>
         <Card variant="outlined">
           <CardContent className={classes.container}>
-            <IconButton aria-label="edit" className={classes.editBtn}>
+            <IconButton
+              aria-label="edit"
+              className={classes.editBtn}
+              onClick={() => editNote(_id)}
+            >
               <EditIcon fontSize="medium" />
             </IconButton>
             <Typography
