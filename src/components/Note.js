@@ -57,10 +57,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Note = (props) => {
-  const {
-    note: { title, note, date, _id },
-  } = props;
-
   const classes = useStyles();
 
   // controls popup form
@@ -76,6 +72,10 @@ const Note = (props) => {
     props.history.push("/");
     return null;
   }
+
+  const {
+    note: { title, note, date, _id },
+  } = props;
 
   // show popup form
   const handleClickOpen = () => {
