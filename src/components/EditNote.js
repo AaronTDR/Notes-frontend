@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,11 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import SaveIcon from "@material-ui/icons/Save";
 import axiosCustomer from "../config/axios";
 import { makeStyles } from "@material-ui/core/styles";
-
 import DialogContent from "@material-ui/core/DialogContent";
-
 import DialogTitle from "@material-ui/core/DialogTitle";
-
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -28,29 +25,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const About = () => {
+const EditNote = ({ title, noteToEdit, date, _id, setOpen, open }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  // today `s date
   const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
   const [note, saveNote] = useState({
     title: "",
     note: "",
     date: "",
   });
+
+  // close popup form
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // read the form data
   const updateStatus = (e) => {
@@ -60,20 +48,22 @@ const About = () => {
     });
   };
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  // send a request to the API
   const upgradeNote = (e) => {
+    console.log("DESDE EditNote ===>", note);
     e.preventDefault();
-    console.log("finciona");
-    axiosCustomer.put("/notes", note).then((res) => {
+
+    axiosCustomer.put(`/notes/${_id}`, note).then((res) => {
       console.log("***nota actualizada***", res);
     });
   };
 
   return (
     <Fragment>
-      <h1>From About</h1>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -90,8 +80,8 @@ const About = () => {
                   variant="outlined"
                   type="string"
                   name="title"
+                  defaultValue={title}
                   fullWidth="true"
-                  defaultValue="valor por defecto"
                   onChange={updateStatus}
                 />
               </Grid>
@@ -105,9 +95,9 @@ const About = () => {
                   variant="outlined"
                   type="string"
                   name="note"
+                  defaultValue={noteToEdit}
                   rowsMax="15"
                   fullWidth="true"
-                  defaultValue="valor por defecto"
                   onChange={updateStatus}
                 />
               </Grid>
@@ -151,4 +141,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default EditNote;
