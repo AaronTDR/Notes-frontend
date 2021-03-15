@@ -170,7 +170,6 @@ export default function Notes(props) {
       <DialogEditNoteForm
         _id={dataNoteEdit.id}
         date={dataNoteEdit.date}
-        //history={props.history}
         note={dataNoteEdit.note}
         saveQuery={props.saveQuery}
         title={dataNoteEdit.title}
