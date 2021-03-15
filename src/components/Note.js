@@ -1,19 +1,8 @@
 import "date-fns";
 import React, { Fragment, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import Grid from "@material-ui/core/Grid";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -21,9 +10,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
-import axiosCustomer from "../config/axios";
 import Swal from "sweetalert2";
+import DialogEditNoteForm from "./DialogEditNoteForm";
+import axiosCustomer from "../config/axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -62,11 +51,6 @@ const Note = (props) => {
   // controls popup form
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [noteEdit, saveNoteEdit] = useState({
-    title: "",
-    note: "",
-    date: "",
-  });
 
   if (!props.note) {
     props.history.push("/");
@@ -88,27 +72,6 @@ const Note = (props) => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  };
-
-  // edit note
-  const updateStatus = (e) => {
-    saveNoteEdit({
-      ...noteEdit,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const upgradeNote = (e) => {
-    e.preventDefault();
-    axiosCustomer
-      .put(`/notes/${_id}`, noteEdit)
-      .then((res) => {
-        props.saveQuery(true);
-        props.history.push("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   // delete note
@@ -157,7 +120,7 @@ const Note = (props) => {
                 className={classes.editBtn}
                 onClick={handleClickOpen}
               >
-                <EditIcon fontSize="medium" />
+                <EditIcon />
               </IconButton>
               <Typography
                 color="textSecondary"
@@ -180,7 +143,7 @@ const Note = (props) => {
             </CardContent>
             <CardContent>
               <Typography
-                variant="caution"
+                variant="body1"
                 component="h3"
                 align="right"
                 gutterBottom
@@ -209,81 +172,17 @@ const Note = (props) => {
           </Card>
         </Grid>
       </Grid>
-      {handleClickOpen ? (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Edit the fields</DialogTitle>
-          <DialogContent>
-            <form noValidate autoComplete="off" onSubmit={upgradeNote}>
-              <Grid container justify="center" spacing={4}>
-                <Grid item xs={9}>
-                  <TextField
-                    id="outlined"
-                    label="Title"
-                    variant="outlined"
-                    type="string"
-                    name="title"
-                    fullWidth="true"
-                    defaultValue={title}
-                    onChange={updateStatus}
-                  />
-                </Grid>
 
-                <Grid item xs={9}>
-                  <TextField
-                    id="standard-multiline-static"
-                    label="Note"
-                    multiline
-                    rows={8}
-                    variant="outlined"
-                    type="string"
-                    name="note"
-                    rowsMax="15"
-                    fullWidth="true"
-                    defaultValue={note}
-                    onChange={updateStatus}
-                  />
-                </Grid>
-
-                <Grid item xs={9}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      disableToolbar
-                      variant="inline"
-                      format="MM/dd/yyyy"
-                      margin="normal"
-                      id="date-picker-inline"
-                      label="Date picker inline"
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                </Grid>
-              </Grid>
-              <DialogActions>
-                <Button onClick={handleClose} color="secondary">
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  startIcon={<SaveIcon />}
-                  type="submit"
-                  onClick={handleClose}
-                  className={classes.ActionsBtn}
-                >
-                  Save
-                </Button>
-              </DialogActions>
-            </form>
-          </DialogContent>
-        </Dialog>
-      ) : null}
+      <DialogEditNoteForm
+        _id={_id}
+        date={date}
+        history={props.history}
+        note={note}
+        saveQuery={props.saveQuery}
+        title={title}
+        handleClose={handleClose}
+        open={open}
+      />
     </Fragment>
   );
 };
