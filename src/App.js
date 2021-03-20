@@ -10,6 +10,10 @@ import Notes from "./components/Notes";
 import About from "./components/About";
 
 function App() {
+  // get date
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const [editedOrUneditedDate, setEditedOrUneditedDate] = useState(false);
   const [notes, saveNotes] = useState([]);
   const [query, saveQuery] = useState(true);
 
@@ -22,6 +26,7 @@ function App() {
             saveNotes(res.data);
             // disable query
             saveQuery(false);
+            setEditedOrUneditedDate(false);
           })
           .catch((error) => console.log(error));
       };
@@ -39,7 +44,14 @@ function App() {
             component={() => (
               <ResponsiveDrawer
                 componentToRender={
-                  <Notes notes={notes} saveQuery={saveQuery} />
+                  <Notes
+                    notes={notes}
+                    saveQuery={saveQuery}
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    editedOrUneditedDate={editedOrUneditedDate}
+                    setEditedOrUneditedDate={setEditedOrUneditedDate}
+                  />
                 }
               />
             )}
@@ -65,7 +77,14 @@ function App() {
               return (
                 <ResponsiveDrawer
                   componentToRender={
-                    <Note note={note[0]} saveQuery={saveQuery} />
+                    <Note
+                      note={note[0]}
+                      saveQuery={saveQuery}
+                      selectedDate={selectedDate}
+                      setSelectedDate={setSelectedDate}
+                      editedOrUneditedDate={editedOrUneditedDate}
+                      setEditedOrUneditedDate={setEditedOrUneditedDate}
+                    />
                   }
                 />
               );

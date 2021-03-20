@@ -1,4 +1,6 @@
 import React, { Fragment, useState } from "react";
+import "date-fns";
+import { format } from "date-fns";
 import { withRouter } from "react-router-dom";
 import axiosCustomer from "../config/axios";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,6 +9,8 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import Typography from "@material-ui/core/Typography";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
 
 const useStyles = makeStyles(() => ({
   InputTitle: {
@@ -15,10 +19,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NewNote = (props) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  let formatDate = format(selectedDate, "LLLL dd, yyyy hh:mm a");
   const [note, saveNote] = useState({
     title: "",
     note: "",
-    date: "",
+    date: formatDate,
   });
   // read the form data
   const updateStatus = (e) => {
@@ -28,10 +34,21 @@ const NewNote = (props) => {
     });
   };
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    saveNote((previousStateNote) => {
+      return {
+        ...previousStateNote,
+        date: format(date, "LLLL dd, yyyy hh:mm a"),
+      };
+    });
+    console.log("NOTE1===>", note);
+  };
+
   // send a request to the API
   const createNewNote = (e) => {
     e.preventDefault();
-
+    console.log("NOTE2===>", note);
     axiosCustomer.post("/notes", note).then(() => {
       props.saveQuery(true);
       props.history.push("/");
@@ -59,7 +76,7 @@ const NewNote = (props) => {
               variant="outlined"
               type="string"
               name="title"
-              fullWidth="true"
+              fullWidth
               onChange={updateStatus}
             />
           </Grid>
@@ -74,24 +91,24 @@ const NewNote = (props) => {
               type="string"
               name="note"
               rowsMax="15"
-              fullWidth="true"
+              fullWidth
               onChange={updateStatus}
             />
           </Grid>
 
           <Grid item xs={12} sm={7} md={7}>
-            <TextField
-              id="datetime-local"
-              label="Next appointment"
-              type="datetime-local"
-              name="date"
-              defaultValue="2021-02-20T10:30"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth="true"
-              onChange={updateStatus}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <DateTimePicker
+                variant="inline"
+                margin="normal"
+                label="Date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                disablePast
+                format="yyyy/MM/dd hh:mm a"
+                inputVariant="outlined"
+              />
+            </MuiPickersUtilsProvider>
           </Grid>
           <Grid item xs={12} sm={7} md={7}>
             <Button

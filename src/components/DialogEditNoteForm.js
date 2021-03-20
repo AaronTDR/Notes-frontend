@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "date-fns";
+import { format } from "date-fns";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -7,10 +9,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
 import axiosCustomer from "../config/axios";
 import SaveIcon from "@material-ui/icons/Save";
 import Button from "@material-ui/core/Button";
@@ -47,32 +46,57 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DialogEditNoteForm = ({
+  _id,
   title,
   note,
-  date,
-  _id,
+  oldDate,
   history,
   saveQuery,
   handleClose,
   open,
+  selectedDate,
+  setSelectedDate,
+  editedOrUneditedDate,
+  setEditedOrUneditedDate,
 }) => {
+  let showDate;
+  console.log("TITLE FROM FORM=>", title);
+  console.log("NOTE FROM FORM=>", note);
+  console.log("DATE FROM FORM=>", oldDate);
+
+  if (editedOrUneditedDate) {
+    showDate = selectedDate;
+  } else {
+    showDate = oldDate;
+  }
+
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [noteEdit, saveNoteEdit] = useState({
     title: title,
     note: note,
-    date: "",
+    date: oldDate,
   });
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  console.log("noteEdit FROM FORM=>", noteEdit);
   // edit note
   const updateStatus = (e) => {
     saveNoteEdit((previousStateNote) => {
+      console.log("previousStateNote83=>", previousStateNote);
       return {
         ...previousStateNote,
         [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  const handleDateChange = (date) => {
+    console.log("PARAMETRO DATE==>", date);
+    setSelectedDate(date);
+    console.log("selectedDate from handleDateChange=>", selectedDate);
+    setEditedOrUneditedDate(true);
+    saveNoteEdit((previousStateNote) => {
+      return {
+        ...previousStateNote,
+        date: format(date, "LLLL dd, yyyy hh:mm a"),
       };
     });
   };
@@ -131,18 +155,15 @@ const DialogEditNoteForm = ({
 
             <Grid item xs={9}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
+                <DateTimePicker
                   variant="inline"
-                  format="MM/dd/yyyy"
                   margin="normal"
-                  id="date-picker-inline"
-                  label="Date picker inline"
-                  value={selectedDate}
+                  label="Date"
+                  value={showDate}
                   onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
+                  disablePast
+                  format="yyyy/MM/dd hh:mm a"
+                  inputVariant="outlined"
                 />
               </MuiPickersUtilsProvider>
             </Grid>

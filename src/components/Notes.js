@@ -44,12 +44,14 @@ export default function Notes(props) {
   // controls popup form
   const [open, setOpen] = useState(false);
   const [dataNoteEdit, setDataNoteEdit] = useState({});
+  console.log("NOTE FROM Notes=>", dataNoteEdit);
 
   if (props.notes === 0) return null;
 
   // hides popup form
   const handleClose = () => {
     setOpen(false);
+    props.setEditedOrUneditedDate(false);
   };
 
   return (
@@ -93,7 +95,7 @@ export default function Notes(props) {
                       align="right"
                       gutterBottom
                     >
-                      {note.time} - {note.date}
+                      {note.date}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -117,6 +119,7 @@ export default function Notes(props) {
                         note: note.note,
                         title: note.title,
                       });
+
                       setOpen(true);
                     }}
                   >
@@ -169,12 +172,16 @@ export default function Notes(props) {
 
       <DialogEditNoteForm
         _id={dataNoteEdit.id}
-        date={dataNoteEdit.date}
-        note={dataNoteEdit.note}
-        saveQuery={props.saveQuery}
         title={dataNoteEdit.title}
+        note={dataNoteEdit.note}
+        oldDate={dataNoteEdit.date}
+        saveQuery={props.saveQuery}
         handleClose={handleClose}
         open={open}
+        selectedDate={props.selectedDate}
+        setSelectedDate={props.setSelectedDate}
+        editedOrUneditedDate={props.editedOrUneditedDate}
+        setEditedOrUneditedDate={props.setEditedOrUneditedDate}
       />
     </Fragment>
   );
