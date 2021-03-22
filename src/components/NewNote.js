@@ -42,13 +42,11 @@ const NewNote = (props) => {
         date: format(date, "LLLL dd, yyyy hh:mm a"),
       };
     });
-    console.log("NOTE1===>", note);
   };
 
   // send a request to the API
   const createNewNote = (e) => {
     e.preventDefault();
-    console.log("NOTE2===>", note);
     axiosCustomer.post("/notes", note).then(() => {
       props.saveQuery(true);
       props.history.push("/");
@@ -74,6 +72,8 @@ const NewNote = (props) => {
               id="outlined"
               label="Title"
               variant="outlined"
+              required
+              inputProps={{ maxLength: 35 }}
               type="string"
               name="title"
               fullWidth
@@ -88,6 +88,8 @@ const NewNote = (props) => {
               multiline
               rows={8}
               variant="outlined"
+              required
+              inputProps={{ maxLength: 200 }}
               type="string"
               name="note"
               rowsMax="15"
@@ -100,6 +102,7 @@ const NewNote = (props) => {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DateTimePicker
                 variant="inline"
+                required
                 margin="normal"
                 label="Date"
                 value={selectedDate}

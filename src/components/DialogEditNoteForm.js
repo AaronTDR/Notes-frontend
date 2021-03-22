@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "date-fns";
 import { format } from "date-fns";
 import { makeStyles } from "@material-ui/core/styles";
@@ -54,21 +54,10 @@ const DialogEditNoteForm = ({
   saveQuery,
   handleClose,
   open,
-  selectedDate,
-  setSelectedDate,
-  editedOrUneditedDate,
-  setEditedOrUneditedDate,
 }) => {
-  let showDate;
-  console.log("TITLE FROM FORM=>", title);
-  console.log("NOTE FROM FORM=>", note);
-  console.log("DATE FROM FORM=>", oldDate);
-
-  if (editedOrUneditedDate) {
-    showDate = selectedDate;
-  } else {
-    showDate = oldDate;
-  }
+  // get date
+  console.log("oldDate=>", oldDate);
+  const [selectedDate, setSelectedDate] = useState(oldDate);
 
   const classes = useStyles();
   const [noteEdit, saveNoteEdit] = useState({
@@ -76,11 +65,16 @@ const DialogEditNoteForm = ({
     note: note,
     date: oldDate,
   });
-  console.log("noteEdit FROM FORM=>", noteEdit);
+
+  useEffect(() => {
+    if (oldDate !== undefined) {
+      setSelectedDate(oldDate);
+    }
+  }, [oldDate]);
+
   // edit note
   const updateStatus = (e) => {
     saveNoteEdit((previousStateNote) => {
-      console.log("previousStateNote83=>", previousStateNote);
       return {
         ...previousStateNote,
         [e.target.name]: e.target.value,
@@ -89,11 +83,10 @@ const DialogEditNoteForm = ({
   };
 
   const handleDateChange = (date) => {
-    console.log("PARAMETRO DATE==>", date);
+    console.log("DATE=>", date);
     setSelectedDate(date);
-    console.log("selectedDate from handleDateChange=>", selectedDate);
-    setEditedOrUneditedDate(true);
     saveNoteEdit((previousStateNote) => {
+      console.log("previousStateNote=>", previousStateNote);
       return {
         ...previousStateNote,
         date: format(date, "LLLL dd, yyyy hh:mm a"),
@@ -129,6 +122,8 @@ const DialogEditNoteForm = ({
                 id="outlined"
                 label="Title"
                 variant="outlined"
+                required
+                inputProps={{ maxLength: 35 }}
                 type="string"
                 name="title"
                 fullWidth
@@ -144,6 +139,8 @@ const DialogEditNoteForm = ({
                 multiline
                 rows={8}
                 variant="outlined"
+                required
+                inputProps={{ maxLength: 200 }}
                 type="string"
                 name="note"
                 rowsMax="15"
@@ -157,9 +154,10 @@ const DialogEditNoteForm = ({
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DateTimePicker
                   variant="inline"
+                  required
                   margin="normal"
                   label="Date"
-                  value={showDate}
+                  value={selectedDate}
                   onChange={handleDateChange}
                   disablePast
                   format="yyyy/MM/dd hh:mm a"

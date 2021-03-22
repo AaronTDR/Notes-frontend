@@ -1,20 +1,19 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import "date-fns";
 import { format } from "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import Grid from "@material-ui/core/Grid";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDateTimePicker,
   DateTimePicker,
 } from "@material-ui/pickers";
 
 const About = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    console.log("HORA Y FECHA===>", selectedDate);
   };
 
   return (
@@ -38,6 +37,7 @@ const About = () => {
 
           <DateTimePicker
             variant="inline"
+            required
             margin="normal"
             label="Basic example"
             value={selectedDate}
