@@ -59,7 +59,6 @@ const Note = (props) => {
   const {
     note: { title, note, date, _id },
   } = props;
-  console.log("NOTE FROM Note=>", props.note);
 
   // show popup form
   const handleClickOpen = () => {
@@ -68,7 +67,6 @@ const Note = (props) => {
   // hides popup form
   const handleClose = () => {
     setOpen(false);
-    props.setEditedOrUneditedDate(false);
   };
 
   // delete note
@@ -179,11 +177,6 @@ const Note = (props) => {
         saveQuery={props.saveQuery}
         handleClose={handleClose}
         open={open}
-        selectedDate={props.selectedDate}
-        setSelectedDate={props.setSelectedDate}
-        formatDate={props.formatDate}
-        editedOrUneditedDate={props.editedOrUneditedDate}
-        setEditedOrUneditedDate={props.setEditedOrUneditedDate}
       />
     </Fragment>
   );
