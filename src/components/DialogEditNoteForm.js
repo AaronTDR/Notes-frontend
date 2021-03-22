@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "date-fns";
 import { format } from "date-fns";
+import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -56,8 +57,8 @@ const DialogEditNoteForm = ({
   open,
 }) => {
   // get date
-  console.log("oldDate=>", oldDate);
   const [selectedDate, setSelectedDate] = useState(oldDate);
+  const { register, errors, handleSubmit } = useForm();
 
   const classes = useStyles();
   const [noteEdit, saveNoteEdit] = useState({
@@ -66,6 +67,7 @@ const DialogEditNoteForm = ({
     date: oldDate,
   });
 
+  // wait for the DOM to load the variable with the old date to avoid an empty string
   useEffect(() => {
     if (oldDate !== undefined) {
       setSelectedDate(oldDate);
@@ -83,10 +85,8 @@ const DialogEditNoteForm = ({
   };
 
   const handleDateChange = (date) => {
-    console.log("DATE=>", date);
     setSelectedDate(date);
     saveNoteEdit((previousStateNote) => {
-      console.log("previousStateNote=>", previousStateNote);
       return {
         ...previousStateNote,
         date: format(date, "LLLL dd, yyyy hh:mm a"),
@@ -94,8 +94,9 @@ const DialogEditNoteForm = ({
     });
   };
 
-  const upgradeNote = (e) => {
+  const onSubmit = (data, e) => {
     e.preventDefault();
+    console.log("data===>", data);
     axiosCustomer
       .put(`/notes/${_id}`, noteEdit)
       .then((res) => {
@@ -115,53 +116,67 @@ const DialogEditNoteForm = ({
     >
       <DialogTitle id="form-dialog-title">Edit the fields</DialogTitle>
       <DialogContent>
-        <form noValidate autoComplete="off" onSubmit={upgradeNote}>
+        <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <Grid container justify="center" spacing={4}>
             <Grid item xs={9}>
               <TextField
                 id="outlined"
+                placeholder="Enter the title of the note"
                 label="Title"
-                variant="outlined"
-                required
-                inputProps={{ maxLength: 35 }}
-                type="string"
                 name="title"
-                fullWidth
+                type="string"
+                variant="outlined"
                 defaultValue={title}
+                required
+                fullWidth
+                inputProps={{ maxLength: 35 }}
                 onChange={updateStatus}
+                inputRef={register({
+                  required: "Title required.",
+                })}
+                error={Boolean(errors.title)}
+                helperText={errors?.title?.message}
               />
             </Grid>
 
             <Grid item xs={9}>
               <TextField
                 id="standard-multiline-static"
+                placeholder="Enter the note"
                 label="Note"
-                multiline
-                rows={8}
-                variant="outlined"
-                required
-                inputProps={{ maxLength: 200 }}
-                type="string"
                 name="note"
-                rowsMax="15"
-                fullWidth
+                type="string"
+                variant="outlined"
                 defaultValue={note}
+                multiline
+                rowsMax="15"
+                rows={8}
+                required
+                fullWidth
+                inputProps={{ maxLength: 200 }}
                 onChange={updateStatus}
+                inputRef={register({
+                  required: "This field is required.",
+                })}
+                error={Boolean(errors.note)}
+                helperText={errors?.note?.message}
               />
             </Grid>
 
             <Grid item xs={9}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DateTimePicker
+                  id="DateTimePicker"
+                  label="Date"
+                  name="date"
                   variant="inline"
+                  inputVariant="outlined"
                   required
                   margin="normal"
-                  label="Date"
                   value={selectedDate}
-                  onChange={handleDateChange}
                   disablePast
                   format="yyyy/MM/dd hh:mm a"
-                  inputVariant="outlined"
+                  onChange={handleDateChange}
                 />
               </MuiPickersUtilsProvider>
             </Grid>
