@@ -1,4 +1,4 @@
-import "date-fns";
+//import "date-fns";
 import React, { Fragment, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -50,7 +50,6 @@ const Note = (props) => {
 
   // controls popup form
   const [open, setOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
   if (!props.note) {
     props.history.push("/");
@@ -68,10 +67,6 @@ const Note = (props) => {
   // hides popup form
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
   };
 
   // delete note
@@ -175,11 +170,11 @@ const Note = (props) => {
 
       <DialogEditNoteForm
         _id={_id}
-        date={date}
-        history={props.history}
-        note={note}
-        saveQuery={props.saveQuery}
         title={title}
+        note={note}
+        oldDate={date}
+        history={props.history}
+        saveQuery={props.saveQuery}
         handleClose={handleClose}
         open={open}
       />

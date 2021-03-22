@@ -93,7 +93,7 @@ export default function Notes(props) {
                       align="right"
                       gutterBottom
                     >
-                      {note.time} - {note.date}
+                      {note.date}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -169,10 +169,11 @@ export default function Notes(props) {
 
       <DialogEditNoteForm
         _id={dataNoteEdit.id}
-        date={dataNoteEdit.date}
-        note={dataNoteEdit.note}
-        saveQuery={props.saveQuery}
         title={dataNoteEdit.title}
+        note={dataNoteEdit.note}
+        oldDate={dataNoteEdit.date}
+        history={props.history}
+        saveQuery={props.saveQuery}
         handleClose={handleClose}
         open={open}
       />

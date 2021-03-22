@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "date-fns";
+import { format } from "date-fns";
+import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -7,10 +10,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
 import axiosCustomer from "../config/axios";
 import SaveIcon from "@material-ui/icons/Save";
 import Button from "@material-ui/core/Button";
@@ -47,26 +47,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DialogEditNoteForm = ({
+  _id,
   title,
   note,
-  date,
-  _id,
+  oldDate,
   history,
   saveQuery,
   handleClose,
   open,
 }) => {
+  // get date
+  const [selectedDate, setSelectedDate] = useState(oldDate);
+  const { register, errors, handleSubmit } = useForm();
+
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [noteEdit, saveNoteEdit] = useState({
     title: title,
     note: note,
-    date: "",
+    date: oldDate,
   });
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  // wait for the DOM to load the variable with the old date to avoid an empty string
+  useEffect(() => {
+    if (oldDate !== undefined) {
+      setSelectedDate(oldDate);
+    }
+  }, [oldDate]);
+
   // edit note
   const updateStatus = (e) => {
     saveNoteEdit((previousStateNote) => {
@@ -77,8 +84,19 @@ const DialogEditNoteForm = ({
     });
   };
 
-  const upgradeNote = (e) => {
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    saveNoteEdit((previousStateNote) => {
+      return {
+        ...previousStateNote,
+        date: format(date, "LLLL dd, yyyy hh:mm a"),
+      };
+    });
+  };
+
+  const onSubmit = (data, e) => {
     e.preventDefault();
+    console.log("data===>", data);
     axiosCustomer
       .put(`/notes/${_id}`, noteEdit)
       .then((res) => {
@@ -98,51 +116,67 @@ const DialogEditNoteForm = ({
     >
       <DialogTitle id="form-dialog-title">Edit the fields</DialogTitle>
       <DialogContent>
-        <form noValidate autoComplete="off" onSubmit={upgradeNote}>
+        <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <Grid container justify="center" spacing={4}>
             <Grid item xs={9}>
               <TextField
                 id="outlined"
+                placeholder="Enter the title of the note"
                 label="Title"
-                variant="outlined"
-                type="string"
                 name="title"
-                fullWidth
+                type="string"
+                variant="outlined"
                 defaultValue={title}
+                required
+                fullWidth
+                inputProps={{ maxLength: 35 }}
                 onChange={updateStatus}
+                inputRef={register({
+                  required: "Title required.",
+                })}
+                error={Boolean(errors.title)}
+                helperText={errors?.title?.message}
               />
             </Grid>
 
             <Grid item xs={9}>
               <TextField
                 id="standard-multiline-static"
+                placeholder="Enter the note"
                 label="Note"
-                multiline
-                rows={8}
-                variant="outlined"
-                type="string"
                 name="note"
-                rowsMax="15"
-                fullWidth
+                type="string"
+                variant="outlined"
                 defaultValue={note}
+                multiline
+                rowsMax="15"
+                rows={8}
+                required
+                fullWidth
+                inputProps={{ maxLength: 200 }}
                 onChange={updateStatus}
+                inputRef={register({
+                  required: "This field is required.",
+                })}
+                error={Boolean(errors.note)}
+                helperText={errors?.note?.message}
               />
             </Grid>
 
             <Grid item xs={9}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
+                <DateTimePicker
+                  id="DateTimePicker"
+                  label="Date"
+                  name="date"
                   variant="inline"
-                  format="MM/dd/yyyy"
+                  inputVariant="outlined"
+                  required
                   margin="normal"
-                  id="date-picker-inline"
-                  label="Date picker inline"
                   value={selectedDate}
+                  disablePast
+                  format="yyyy/MM/dd hh:mm a"
                   onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
                 />
               </MuiPickersUtilsProvider>
             </Grid>
