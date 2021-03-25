@@ -19,7 +19,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-const drawerWidth = 240;
+const drawerWidth = 190;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,7 +119,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Responsive drawer
+            Reminders
           </Typography>
         </Toolbar>
       </AppBar>

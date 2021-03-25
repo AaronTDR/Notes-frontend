@@ -1,38 +1,38 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import CardActionArea from "@material-ui/core/CardActionArea";
+import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import axiosCustomer from "../config/axios";
-import Swal from "sweetalert2";
 import DialogEditNoteForm from "./DialogEditNoteForm";
+import DeleteNote from "./DeleteNote";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+const useStyles = makeStyles(() => ({
+  gridItem: {
+    minWidth: 400,
+    margin: 1,
   },
   card: {
-    minWidth: 300,
+    minWidth: 345,
   },
   cardContent: {
     height: 200,
-    width: "100%",
+    width: "90%",
     overflow: "hidden",
+    padding: 20,
+    maxWidth: 345,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
-  },
-  body: {
-    fontSize: 12,
   },
   editBtn: {
     marginRight: "auto",
@@ -43,7 +43,9 @@ export default function Notes(props) {
   const classes = useStyles();
   // controls popup form
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [dataNoteEdit, setDataNoteEdit] = useState({});
+  const [dataNoteDelete, setDataNoteDelete] = useState({});
 
   if (props.notes === 0) return null;
 
@@ -52,20 +54,24 @@ export default function Notes(props) {
     setOpen(false);
   };
 
+  // show confirmation alert
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+
   return (
     <Fragment>
-      <Grid container className={classes.root}>
-        <Grid container justify="center" spacing={2}>
+      <Box p={2}>
+        <Grid container justify="center" spacing={4}>
           {props.notes.map((note) => (
             <Grid
               key={note._id}
               item
               xs={12}
-              sm={6}
-              md={3}
-              className={classes.card}
+              sm={3}
+              className={classes.gridItem}
             >
-              <Card variant="outlined">
+              <Card variant="outlined" className={classes.card}>
                 <CardActionArea component={Link} to={`/note/${note._id}`}>
                   <CardContent className={classes.cardContent}>
                     <Typography
@@ -126,36 +132,10 @@ export default function Notes(props) {
                   <IconButton
                     aria-label="delete"
                     onClick={() => {
-                      Swal.fire({
-                        title: "Are you sure?",
-                        text: "You won't be able to revert this!",
-                        icon: "warning",
-                        iconColor: "#3085d6",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!",
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          Swal.fire({
-                            title: "Deleted!",
-                            text: "Your note has been deleted.",
-                            icon: "success",
-                            showConfirmButton: false,
-                            timer: 1500,
-                          });
-
-                          //Removed from the DB
-                          axiosCustomer
-                            .delete(`/notes/${note._id}`)
-                            .then((res) => {
-                              props.saveQuery(true);
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }
+                      setDataNoteDelete({
+                        id: note._id,
                       });
+                      setOpenAlert(true);
                     }}
                   >
                     <DeleteIcon fontSize="large" color="secondary" />
@@ -165,7 +145,7 @@ export default function Notes(props) {
             </Grid>
           ))}
         </Grid>
-      </Grid>
+      </Box>
 
       <DialogEditNoteForm
         _id={dataNoteEdit.id}
@@ -176,6 +156,13 @@ export default function Notes(props) {
         saveQuery={props.saveQuery}
         handleClose={handleClose}
         open={open}
+      />
+
+      <DeleteNote
+        id={dataNoteDelete.id}
+        saveQuery={props.saveQuery}
+        handleCloseAlert={handleCloseAlert}
+        openAlert={openAlert}
       />
     </Fragment>
   );

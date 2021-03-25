@@ -10,13 +10,11 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import Swal from "sweetalert2";
 import DialogEditNoteForm from "./DialogEditNoteForm";
-import axiosCustomer from "../config/axios";
+import DeleteNote from "./DeleteNote";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    height: "380px",
+  cardContainer: {
     overflow: "hidden",
     margin: "15px",
   },
@@ -32,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "10px",
   },
   editBtn: {
-    marginLeft: "95%",
+    marginLeft: "90%",
   },
   deleteBtn: {
     marginBottom: "15px",
@@ -50,6 +48,7 @@ const Note = (props) => {
 
   // controls popup form
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
 
   if (!props.note) {
     props.history.push("/");
@@ -69,39 +68,13 @@ const Note = (props) => {
     setOpen(false);
   };
 
-  // delete note
-  const deleteNote = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      iconColor: "#3085d6",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your note has been deleted.",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-        //Removed from the DB
-        axiosCustomer
-          .delete(`/notes/${id}`)
-          .then((res) => {
-            props.saveQuery(true);
-            props.history.push("/");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    });
+  // show alert
+  const handleClickOpenAlert = () => {
+    setOpenAlert(true);
+  };
+  // hides alert
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
   };
 
   return (
@@ -109,7 +82,7 @@ const Note = (props) => {
       <Grid container justify="center" spacing={1}>
         <Grid key={_id} item xs={12} sm={10} md={10}>
           <Card variant="outlined">
-            <CardContent className={classes.container}>
+            <CardContent className={classes.cardContainer}>
               <IconButton
                 aria-label="edit"
                 className={classes.editBtn}
@@ -157,7 +130,7 @@ const Note = (props) => {
                     size="large"
                     fullWidth
                     className={classes.deleteBtn}
-                    onClick={() => deleteNote(_id)}
+                    onClick={handleClickOpenAlert}
                   >
                     Delete &times;
                   </Button>
@@ -177,6 +150,14 @@ const Note = (props) => {
         saveQuery={props.saveQuery}
         handleClose={handleClose}
         open={open}
+      />
+
+      <DeleteNote
+        id={_id}
+        history={props.history}
+        saveQuery={props.saveQuery}
+        handleCloseAlert={handleCloseAlert}
+        openAlert={openAlert}
       />
     </Fragment>
   );
