@@ -1,6 +1,13 @@
-import { Snackbar } from "@material-ui/core";
-import React from "react";
+import React, { Fragment } from "react";
 
-export default function About(props) {
-  return <Snackbar></Snackbar>;
-}
+import Button from "@material-ui/core/Button";
+
+const About = (props) => {
+  return (
+    <Fragment>
+      <Button> hola </Button>
+    </Fragment>
+  );
+};
+
+export default About;

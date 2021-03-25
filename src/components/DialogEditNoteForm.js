@@ -96,7 +96,6 @@ const DialogEditNoteForm = ({
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    console.log("data===>", data);
     axiosCustomer
       .put(`/notes/${_id}`, noteEdit)
       .then((res) => {
@@ -182,10 +181,11 @@ const DialogEditNoteForm = ({
             </Grid>
           </Grid>
           <DialogActions>
-            <Button onClick={handleClose} color="secondary">
+            <Button onClick={handleClose} variant="contained" color="secondary">
               Cancel
             </Button>
             <Button
+              variant="contained"
               color="primary"
               startIcon={<SaveIcon />}
               type="submit"

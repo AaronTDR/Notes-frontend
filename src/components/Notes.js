@@ -11,9 +11,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import axiosCustomer from "../config/axios";
-import Swal from "sweetalert2";
 import DialogEditNoteForm from "./DialogEditNoteForm";
+import DeleteNote from "./DeleteNote";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,13 +42,20 @@ export default function Notes(props) {
   const classes = useStyles();
   // controls popup form
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [dataNoteEdit, setDataNoteEdit] = useState({});
+  const [dataNoteDelete, setDataNoteDelete] = useState({});
 
   if (props.notes === 0) return null;
 
   // hides popup form
   const handleClose = () => {
     setOpen(false);
+  };
+
+  // show confirmation alert
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
   };
 
   return (
@@ -126,36 +132,10 @@ export default function Notes(props) {
                   <IconButton
                     aria-label="delete"
                     onClick={() => {
-                      Swal.fire({
-                        title: "Are you sure?",
-                        text: "You won't be able to revert this!",
-                        icon: "warning",
-                        iconColor: "#3085d6",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!",
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          Swal.fire({
-                            title: "Deleted!",
-                            text: "Your note has been deleted.",
-                            icon: "success",
-                            showConfirmButton: false,
-                            timer: 1500,
-                          });
-
-                          //Removed from the DB
-                          axiosCustomer
-                            .delete(`/notes/${note._id}`)
-                            .then((res) => {
-                              props.saveQuery(true);
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }
+                      setDataNoteDelete({
+                        id: note._id,
                       });
+                      setOpenAlert(true);
                     }}
                   >
                     <DeleteIcon fontSize="large" color="secondary" />
@@ -176,6 +156,13 @@ export default function Notes(props) {
         saveQuery={props.saveQuery}
         handleClose={handleClose}
         open={open}
+      />
+
+      <DeleteNote
+        id={dataNoteDelete.id}
+        saveQuery={props.saveQuery}
+        handleCloseAlert={handleCloseAlert}
+        openAlert={openAlert}
       />
     </Fragment>
   );
