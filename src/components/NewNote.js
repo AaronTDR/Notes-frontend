@@ -102,7 +102,7 @@ const NewNote = (props) => {
               rows={8}
               required
               fullWidth
-              inputProps={{ maxLength: 200 }}
+              inputProps={{ maxLength: 500 }}
               onChange={updateStatus}
               inputRef={register({
                 required: "This field is required.",

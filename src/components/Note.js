@@ -14,8 +14,7 @@ import DialogEditNoteForm from "./DialogEditNoteForm";
 import DeleteNote from "./DeleteNote";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    height: "380px",
+  cardContainer: {
     overflow: "hidden",
     margin: "15px",
   },
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "10px",
   },
   editBtn: {
-    marginLeft: "95%",
+    marginLeft: "90%",
   },
   deleteBtn: {
     marginBottom: "15px",
@@ -83,7 +82,7 @@ const Note = (props) => {
       <Grid container justify="center" spacing={1}>
         <Grid key={_id} item xs={12} sm={10} md={10}>
           <Card variant="outlined">
-            <CardContent className={classes.container}>
+            <CardContent className={classes.cardContainer}>
               <IconButton
                 aria-label="edit"
                 className={classes.editBtn}
