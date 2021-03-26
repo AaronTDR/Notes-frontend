@@ -1,6 +1,6 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import deepOrange from "@material-ui/core/colors/deepOrange";
-import pink from "@material-ui/core/colors/pink";
+import red from "@material-ui/core/colors/red";
 
 const theme = createMuiTheme({
   palette: {
@@ -9,7 +9,7 @@ const theme = createMuiTheme({
       main: deepOrange[500],
     },
     secondary: {
-      main: pink[500],
+      main: red[700],
     },
   },
 });
