@@ -7,7 +7,7 @@ import ResponsiveDrawer from "./components/ResponsiveDrawer";
 import NewNote from "./components/NewNote";
 import Note from "./components/Note";
 import Notes from "./components/Notes";
-import About from "./components/About";
+import Manage from "./components/Manage";
 
 function App() {
   const [notes, saveNotes] = useState([]);
@@ -37,7 +37,11 @@ function App() {
             exact
             path="/"
             component={() => (
-              <ResponsiveDrawer componentToRender={<Notes notes={notes} />} />
+              <ResponsiveDrawer
+                componentToRender={
+                  <Notes notes={notes} saveQuery={saveQuery} />
+                }
+              />
             )}
           />
 
@@ -51,12 +55,29 @@ function App() {
             )}
           />
 
-          <Route exact path="/note/:id" component={Note} />
+          <Route
+            exact
+            path="/note/:id"
+            render={(props) => {
+              const note = notes.filter(
+                (note) => note._id === props.match.params.id
+              );
+              return (
+                <ResponsiveDrawer
+                  componentToRender={
+                    <Note note={note[0]} saveQuery={saveQuery} />
+                  }
+                />
+              );
+            }}
+          />
 
           <Route
             exact
-            path="/about"
-            component={() => <ResponsiveDrawer componentToRender={<About />} />}
+            path="/manage"
+            component={() => (
+              <ResponsiveDrawer componentToRender={<Manage />} />
+            )}
           />
         </Switch>
       </Router>

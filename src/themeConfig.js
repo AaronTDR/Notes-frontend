@@ -1,14 +1,15 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import deepOrange from "@material-ui/core/colors/deepOrange";
-import pink from "@material-ui/core/colors/pink";
+import red from "@material-ui/core/colors/red";
 
 const theme = createMuiTheme({
   palette: {
+    type: "dark",
     primary: {
-      main: deepOrange[500],
+      main: red.A400,
     },
     secondary: {
-      main: pink[500],
+      main: deepOrange[500],
     },
   },
 });

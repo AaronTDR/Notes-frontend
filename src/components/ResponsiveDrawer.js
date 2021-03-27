@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
@@ -20,7 +19,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,9 +70,9 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {[
-          { text: "All notes", page: "/", icon: <NotesIcon /> },
-          { text: "New note", page: "/new", icon: <NoteAddIcon /> },
-          { text: "About", page: "/about", icon: <InfoIcon /> },
+          { text: "All the reminders", page: "/", icon: <NotesIcon /> },
+          { text: "New reminder", page: "/new", icon: <NoteAddIcon /> },
+          { text: "Manage", page: "/manage", icon: <InfoIcon /> },
         ].map((routeInfo) => {
           return (
             <ListItem
@@ -89,16 +88,6 @@ function ResponsiveDrawer(props) {
         })}
       </List>
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <NotesIcon /> : <NoteAddIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
     </div>
   );
 
@@ -120,7 +109,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Responsive drawer
+            Reminders
           </Typography>
         </Toolbar>
       </AppBar>
