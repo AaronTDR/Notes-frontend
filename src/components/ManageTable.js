@@ -11,7 +11,6 @@ import { withStyles } from "@material-ui/core/styles";
 
 const StyledTableCell = withStyles(() => ({
   head: {
-    color: "white",
     background: "black",
     textAlign: "center",
   },
@@ -20,23 +19,23 @@ const StyledTableCell = withStyles(() => ({
   },
 }))(TableCell);
 
-function TableAbout(props) {
+function ManageTable(props) {
   return (
     <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
-            <StyledTableCell>consectetur</StyledTableCell>
-            <StyledTableCell>Duis rutrum</StyledTableCell>
-            <StyledTableCell>eleifend</StyledTableCell>
+            <StyledTableCell>Close date</StyledTableCell>
+            <StyledTableCell>Title</StyledTableCell>
+            <StyledTableCell>Priority</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data.map((element) => (
             <TableRow key={element.id}>
-              <TableCell>{element.tempus}</TableCell>
-              <TableCell align="center">{element.tempor}</TableCell>
-              <TableCell align="center">{element.scelerisque}</TableCell>
+              <TableCell>{element.date}</TableCell>
+              <TableCell align="center">{element.title}</TableCell>
+              <TableCell align="center">{element.priority}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -45,4 +44,4 @@ function TableAbout(props) {
   );
 }
 
-export default TableAbout;
+export default ManageTable;

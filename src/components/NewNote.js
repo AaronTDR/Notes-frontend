@@ -65,14 +65,14 @@ const NewNote = (props) => {
         component="h2"
         align="center"
       >
-        Add a new note
+        Add a new reminder
       </Typography>
       <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <Grid container justify="center" spacing={4}>
           <Grid item xs={12} sm={7} md={7} className={classes.InputTitle}>
             <TextField
               id="outlined"
-              placeholder="Enter the title of the note"
+              placeholder="Enter the title"
               label="Title"
               name="title"
               type="string"
@@ -82,7 +82,7 @@ const NewNote = (props) => {
               inputProps={{ maxLength: 35 }}
               onChange={updateStatus}
               inputRef={register({
-                required: "Title required.",
+                required: "The title is required.",
               })}
               error={Boolean(errors.title)}
               helperText={errors?.title?.message}
@@ -105,7 +105,7 @@ const NewNote = (props) => {
               inputProps={{ maxLength: 500 }}
               onChange={updateStatus}
               inputRef={register({
-                required: "This field is required.",
+                required: "The note is required.",
               })}
               error={Boolean(errors.note)}
               helperText={errors?.note?.message}

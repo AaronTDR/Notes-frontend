@@ -70,11 +70,11 @@ export default function DeleteNote({
         </DialogTitle>
         <DialogContent className={classes.dialogContent}>
           <Typography variant="h6">
-            Are you sure you want to delete this note?
+            Are you sure you want to delete this reminder?
           </Typography>
 
           <Typography variant="subtitle2">
-            A deleted note cannot be recovered
+            A deleted reminder cannot be recovered
           </Typography>
         </DialogContent>
         <DialogActions className={classes.dialogActions}>

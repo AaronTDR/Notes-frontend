@@ -2,20 +2,17 @@ import React from "react";
 import { Card, Typography, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-function AboutHeader(props) {
+function ManageHeader(props) {
   const useStyles = makeStyles(() => ({
     root: {
       textAlign: "center",
-      background: props.color,
     },
     text: {
       fontSize: 18,
-      color: props.font,
     },
     title: {
       fontWeight: "bold",
       fontSize: 22,
-      color: props.font,
     },
   }));
 
@@ -32,4 +29,4 @@ function AboutHeader(props) {
   );
 }
 
-export default AboutHeader;
+export default ManageHeader;

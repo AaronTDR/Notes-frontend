@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
@@ -19,7 +19,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-const drawerWidth = 190;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,9 +70,9 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {[
-          { text: "All notes", page: "/", icon: <NotesIcon /> },
-          { text: "New note", page: "/new", icon: <NoteAddIcon /> },
-          { text: "About", page: "/about", icon: <InfoIcon /> },
+          { text: "All the reminders", page: "/", icon: <NotesIcon /> },
+          { text: "New reminder", page: "/new", icon: <NoteAddIcon /> },
+          { text: "Manage", page: "/manage", icon: <InfoIcon /> },
         ].map((routeInfo) => {
           return (
             <ListItem

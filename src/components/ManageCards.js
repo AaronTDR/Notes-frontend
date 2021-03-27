@@ -5,20 +5,18 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(() => ({
   root: {
     textAlign: "center",
-    backgroundColor: "rgba(73,155,234,1)",
+    backgroundColor: "#01579b",
   },
   text: {
     fontSize: 18,
-    color: "white",
   },
   title: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "white",
   },
 }));
 
-function AboutCards(props) {
+function ManageCards(props) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -31,4 +29,4 @@ function AboutCards(props) {
   );
 }
 
-export default AboutCards;
+export default ManageCards;

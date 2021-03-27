@@ -120,7 +120,7 @@ const DialogEditNoteForm = ({
             <Grid item xs={9}>
               <TextField
                 id="outlined"
-                placeholder="Enter the title of the note"
+                placeholder="Enter the title"
                 label="Title"
                 name="title"
                 type="string"
@@ -131,7 +131,7 @@ const DialogEditNoteForm = ({
                 inputProps={{ maxLength: 35 }}
                 onChange={updateStatus}
                 inputRef={register({
-                  required: "Title required.",
+                  required: "The title is required.",
                 })}
                 error={Boolean(errors.title)}
                 helperText={errors?.title?.message}
@@ -155,7 +155,7 @@ const DialogEditNoteForm = ({
                 inputProps={{ maxLength: 500 }}
                 onChange={updateStatus}
                 inputRef={register({
-                  required: "This field is required.",
+                  required: "The note is required.",
                 })}
                 error={Boolean(errors.note)}
                 helperText={errors?.note?.message}
